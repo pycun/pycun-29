@@ -1,0 +1,9 @@
+{# Copyright (c) 2015-2023 Data King Ltd #}
+{# See LICENSE file for license details #}
+
+{% extends "accounting/report.html" %}
+{% load accounting %}
+
+{% block content %}
+{% account_chart accounts fy lots=1 post_totals=1 zero_rows=0 %}
+{% endblock %}

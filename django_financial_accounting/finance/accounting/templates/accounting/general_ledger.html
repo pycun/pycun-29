@@ -1,0 +1,39 @@
+{# Copyright (c) 2015-2023 Data King Ltd #}
+{# See LICENSE file for license details #}
+
+{% extends "accounting/transaction_report.html" %}
+{% load accounting %}
+{% load i18n %}
+
+{% block content %}
+
+{% for account in accounts %}
+{% with ob=account|opening_balance:fy txns=account|transactions:fy %}
+{% if ob or txns %}
+<h2>{{ account }}</h2>
+
+{% if ob %}
+<p>
+  {% blocktrans with date=fy.start %}Opening balance on {{ date }}{% endblocktrans %}:
+  {{ ob|currency }}
+</p>
+{% endif %}
+
+{% with account=account transactions=txns %}
+{% include "accounting/includes/transaction_list.html" %}
+{% endwith %}
+
+{% with cb=account|closing_balance:fy %}
+{% if cb %}
+<p>
+  {% blocktrans with date=fy.end %}Closing balance on {{ date }}{% endblocktrans %}:
+  {{ cb|currency }}
+</p>
+{% endif %}
+{% endwith %}
+
+{% endif %}
+{% endwith %}
+{% endfor %}
+
+{% endblock %}

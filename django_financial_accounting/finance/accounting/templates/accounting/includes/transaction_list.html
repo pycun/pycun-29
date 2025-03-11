@@ -1,0 +1,61 @@
+{# Copyright (c) 2015-2023 Data King Ltd #}
+{# See LICENSE file for license details #}
+
+{% load i18n %}
+
+{% if transactions %}
+<table>
+  <thead>
+    <tr>
+      <th>{% trans "Date" %}</th>
+      <th>{% trans "Number" %}</th>
+      <th>{% trans "Description" %}</th>
+      <th>
+        {% if not account %}
+        {% trans "Account" %}
+        {% endif %}
+      </th>
+      <th>
+        {% if not account or account.lot_tracking and not lot %}
+        {% trans "Lot" %}
+        {% endif %}
+      </th>
+      <th class="right">{% trans "Debit" %}</th>
+      <th class="right">{% trans "Credit" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for txn in transactions %}
+    <tr>
+      <td>{{ txn.date|date:"SHORT_DATE_FORMAT" }}</td>
+      <td>{{ txn.journal }}{{ txn.number }}</td>
+      <td colspan="3">{{ txn.description }}</td>
+      <td></td>
+      <td></td>
+    </tr>
+    {% for item in txn.items.all %}
+    {% if not account or item.account.pk == account.pk %}
+    {% if not lot or item.lot.pk == lot.pk %}
+    <tr>
+      <td></td><td></td>
+      <td>{{ item.description }}</td>
+      <td>
+        {% if not account %}
+        {{ item.account }}
+        {% endif %}
+      </td>
+      <td>
+        {% if not account or account.lot_tracking and not lot %}
+        {{ item.lot|default_if_none:"" }}
+        {% endif %}
+      </td>
+      <td class="right">{{ item.debit }}</td>
+      <td class="right">{{ item.credit }}</td>
+    </tr>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}

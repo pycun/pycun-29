@@ -1,0 +1,54 @@
+{# Copyright (c) 2015-2023 Data King Ltd #}
+{# See LICENSE file for license details #}
+
+<html>
+  <head>
+    <title>{{ company_name|default:"" }} {{ title }} {{ fy }}</title>
+    <style>
+      h1, h2, h3 { break-after: avoid; }
+      .newpage { break-before: page; }
+
+      th, td { padding-right: 5mm; }
+      th { text-align: left; }
+      .indent { min-width: 5mm; }
+      .right { text-align: right; }
+      .top, .total { font-weight: bold; }
+      tr.total > td { padding-bottom: 3mm; }
+
+      .signatures {
+        break-inside: avoid;
+      }
+      .signatures table {
+        margin-top: 2cm;
+        margin-left: -1cm;
+        border-spacing: 1cm 0;
+      }
+      .signatures tr:first-child > td {
+        border-top: solid;
+        min-width: 5cm;
+	font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    {% block company %}
+    {% if company_name %}
+    <h1>{{ company_name }}</h1>
+    {% endif %}
+    {% endblock %}
+
+    {% block heading %}
+    <h1>{{ title }}</h1>
+    {% endblock %}
+
+    {% block date %}
+    <h2>{{ fy.end }}</h2>
+    {% endblock %}
+
+    {% block preamble %}
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+  </body>
+</html>
