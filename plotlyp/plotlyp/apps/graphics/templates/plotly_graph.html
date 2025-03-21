@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %} Gráfico Interactivo | {{ title }} {% endblock %}
+{% block content %}
+<h1>Gráfico Interactivo | {{ title }}</h1>
+    
+<!-- Incluir el gráfico generado -->
+{{ graph_html|safe }}
+
+{% endblock %}
